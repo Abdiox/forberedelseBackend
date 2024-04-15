@@ -1,5 +1,6 @@
 package forberedelse.exercise.forberedelsebackend.van;
 
+import forberedelse.exercise.forberedelsebackend.delivery.Delivery;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +32,17 @@ public class VanService {
 
     public void deleteVan(long id) {
         vanRepository.deleteById(id);
+    }
+
+    public void addDeliveryToVan(Delivery delivery, Van van) {
+        // add delivery to van
+        van.getDeliveries().add(delivery);
+
+        // but only if combined weight < capacity
+
+        // save van
+        vanRepository.save(van);
+
     }
 
 }
