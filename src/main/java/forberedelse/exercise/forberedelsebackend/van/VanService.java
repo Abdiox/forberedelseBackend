@@ -13,12 +13,16 @@ public class VanService {
         this.vanRepository = vanRepository;
     }
 
-    public List<Van> getAllVans(){
+    public List<Van> getAllVans() {
         return vanRepository.findAll();
     }
 
     public Optional<Van> getVanById(long id) {
         return vanRepository.findById(id);
+    }
+
+    public Van getVanOrThrow(long id) {
+        return vanRepository.findById(id).orElseThrow(() -> new IllegalStateException("Van not found with id: " + id));
     }
 
     public Van addVan(Van van) {
@@ -34,15 +38,15 @@ public class VanService {
         vanRepository.deleteById(id);
     }
 
-    public void addDeliveryToVan(Delivery delivery, Van van) {
-        // add delivery to van
-        van.getDeliveries().add(delivery);
-
-        // but only if combined weight < capacity
-
-        // save van
-        vanRepository.save(van);
-
+    public boolean addDeliveryToVan(Delivery delivery, Van van) {
+        // Use getTotalWeightInKg() instead of getWeight()
+        if (van.getCombinedWeightOfDeliveries() + delivery.getTotalWeightInKg() < van.getCapacityInKg()) {
+            van.getDeliveries().add(delivery);
+            vanRepository.save(van);
+        } else {
+            throw new IllegalStateException("Van is full");
+        }
+        return false;
     }
 
 }

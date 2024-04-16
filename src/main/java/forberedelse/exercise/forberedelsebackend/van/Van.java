@@ -17,10 +17,21 @@ public class Van {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-private String brand;
-private String model;
-private int capacityInKg;
+    private String brand;
+    private String model;
+    private int capacityInKg;
 
-@OneToMany
-private List<Delivery> deliveries;
+    @OneToMany
+    private List<Delivery> deliveries;
+
+    public int getCombinedWeightOfDeliveries() {
+       int totalWeightOfDeliveries = 0;
+       for (Delivery delivery : deliveries) {
+           totalWeightOfDeliveries += delivery.getTotalWeightInKg();
+       }
+         return totalWeightOfDeliveries;
+
+
+
+    }
 }

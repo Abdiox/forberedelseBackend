@@ -1,13 +1,17 @@
 package forberedelse.exercise.forberedelsebackend.van;
 
+import forberedelse.exercise.forberedelsebackend.delivery.Delivery;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/van")
+@RequestMapping("/vans/")
 public class VanController {
     private final VanService vanService;
 
@@ -20,7 +24,7 @@ public class VanController {
         return vanService.getAllVans();
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("{id}")
     public Optional<Van> getVanById(@PathVariable int id) {
         return vanService.getVanById(id);
     }
@@ -30,7 +34,7 @@ public class VanController {
         return vanService.addVan(van);
     }
 
-    @PutMapping("/id/{id}")
+    @PutMapping("{id}")
     public Van editVan(@RequestBody Van van, @PathVariable int id) {
         return vanService.editVan(van, id);
     }
@@ -39,4 +43,16 @@ public class VanController {
     public void deleteVan(@PathVariable int id) {
         vanService.deleteVan(id);
     }
-}
+
+   // @PostMapping("{id}/deliveries")
+   // public ResponseEntity<Van> addDeliveryToVan(@PathVariable Long id, @RequestBody Delivery delivery) {
+     //   Van van = vanService.getVanById(id)
+       //         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Van not found with id: " + id));
+
+        //if (vanService.addDeliveryToVan(delivery, van)) {
+          //  return ResponseEntity.ok(van);
+        //} else {
+          //  return ResponseEntity.badRequest().body("Unable to add delivery: van may be full or other constraints failed.");
+       // }
+    }
+
