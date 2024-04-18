@@ -1,5 +1,6 @@
 package forberedelse.exercise.forberedelsebackend.delivery;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import forberedelse.exercise.forberedelsebackend.productorder.ProductOrder;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -23,13 +24,21 @@ public class Delivery {
     private String fromWarehouse; // TODO: IN FUTURE, MAYBE REPLACE WITH ACTUAL Warehouse entity
     private String destination;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "delivery")
+    @JsonManagedReference // Denne side håndterer serialiseringen
     private List<ProductOrder> productOrders = new ArrayList<>();
 
 
-    public Delivery(LocalDate deliveryDate, String fromWarehouse, String destination) {
+    // Constructor that accepts productOrders
+    public Delivery(LocalDate deliveryDate, String fromWarehouse, String destination, List<ProductOrder> productOrders) {
         this.deliveryDate = deliveryDate;
         this.fromWarehouse = fromWarehouse;
         this.destination = destination;
+        this.productOrders = productOrders != null ? productOrders : new ArrayList<>();
+    }
+
+    // Overloaded constructor without productOrders
+    public Delivery(LocalDate deliveryDate, String fromWarehouse, String destination) {
+        this(deliveryDate, fromWarehouse, destination, new ArrayList<>()); // Call the primary constructor with an empty list
     }
 
     public int getTotalWeightInKg() {

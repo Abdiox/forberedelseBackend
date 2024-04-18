@@ -1,9 +1,10 @@
 package forberedelse.exercise.forberedelsebackend.config;
 
 import forberedelse.exercise.forberedelsebackend.delivery.Delivery;
+import forberedelse.exercise.forberedelsebackend.delivery.DeliveryRepository;
 import forberedelse.exercise.forberedelsebackend.product.Product;
 import forberedelse.exercise.forberedelsebackend.product.ProductRepository;
-import forberedelse.exercise.forberedelsebackend.delivery.DeliveryRepository;
+import forberedelse.exercise.forberedelsebackend.productorder.ProductOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,6 @@ import java.util.List;
 public class InitData implements CommandLineRunner {
     @Autowired
     private ProductRepository productRepository;
-
     @Autowired
     private DeliveryRepository deliveryRepository;
 
@@ -26,7 +26,7 @@ public class InitData implements CommandLineRunner {
         createInitialData();
     }
 
-    private void createInitialData(){
+    private void createInitialData() {
         System.out.println("Creating initial data ...");
 
         List<Product> products = new ArrayList<>();
@@ -35,12 +35,22 @@ public class InitData implements CommandLineRunner {
         products.add(new Product("Kyllingelår", 25.0, 400));
         products.add(new Product("Kyllingefars", 15.0, 300));
 
-        List<Delivery> deliveries = new ArrayList<>();
-        LocalDate date = LocalDate.of(2001, 3, 20); // Year, Month, Day
-        deliveries.add(new Delivery(date, "Warehouse1", "Rødovre"));
-
-        // Save each product and delivery to the database
         productRepository.saveAll(products);
-        deliveryRepository.saveAll(deliveries);
+
+
+        Product product1 = products.get(0);
+
+        LocalDate date = LocalDate.of(2001, 3, 20);
+        Delivery delivery = new Delivery(date, "Warehouse1", "Rødovre", new ArrayList<>());
+
+        ProductOrder order1 = new ProductOrder(product1, 3);
+
+
+        delivery.getProductOrders().add(order1);
+        order1.setDelivery(delivery);
+
+
+        // Gem leverancen
+        deliveryRepository.save(delivery);
     }
 }
