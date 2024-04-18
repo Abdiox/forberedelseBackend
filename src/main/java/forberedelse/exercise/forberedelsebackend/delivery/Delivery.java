@@ -26,6 +26,12 @@ public class Delivery {
     private List<ProductOrder> productOrders = new ArrayList<>();
 
 
+    public Delivery(LocalDate deliveryDate, String fromWarehouse, String destination) {
+        this.deliveryDate = deliveryDate;
+        this.fromWarehouse = fromWarehouse;
+        this.destination = destination;
+    }
+
     public int getTotalWeightInKg() {
         int totalWeight = 0;
         for (ProductOrder productOrder : productOrders) {

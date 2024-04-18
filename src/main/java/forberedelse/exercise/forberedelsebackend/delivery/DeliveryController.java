@@ -1,5 +1,6 @@
 package forberedelse.exercise.forberedelsebackend.delivery;
 
+import forberedelse.exercise.forberedelsebackend.product.Product;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,21 +27,22 @@ public class DeliveryController {
     }
 
     @PostMapping
-    public Delivery addDelivery(Delivery delivery) {
+    public Delivery addDelivery(@RequestBody Delivery delivery) {
         return deliveryService.addDelivery(delivery);
     }
 
-    @PutMapping("/id/{id}")
-    public Delivery editDelivery(Delivery delivery, @PathVariable int id) {
+
+    @PutMapping("/{id}")
+    public Delivery editDelivery(@RequestBody Delivery delivery, @PathVariable int id) {
         return deliveryService.editDelivery(delivery, id);
     }
 
-    @DeleteMapping("/id/{id}")
+  
+
+    @DeleteMapping("/{id}")
     public void deleteDelivery(@PathVariable int id) {
         deliveryService.deleteDelivery(id);
     }
-
-
 
 
 }

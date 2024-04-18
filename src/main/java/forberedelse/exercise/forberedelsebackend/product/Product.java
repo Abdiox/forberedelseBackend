@@ -22,9 +22,9 @@ public class Product {
 
    private String name;
    private double price;
-   private Double weight;
+   private double weight;
 
-   public Product(String name, double price, int weightInGrams) {
+   public Product(String name, double price, double weight) {
        this.name = name;
        this.price = price;
        this.weight = weight;

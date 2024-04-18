@@ -20,7 +20,7 @@ public class ProductOrderController {
         return productOrderService.getAllProductOrders();
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public Optional<ProductOrder> getProductOrderById(@PathVariable int id) {
         return productOrderService.getProductOrderById(id);
     }
@@ -30,12 +30,12 @@ public class ProductOrderController {
         return productOrderService.addProductOrder(productOrder);
     }
 
-    @PutMapping("/id/{id}")
+    @PutMapping("/{id}")
     public ProductOrder editProductOrder(@RequestBody ProductOrder productOrder, @PathVariable int id) {
         return productOrderService.editProductOrder(productOrder, id);
     }
 
-    @DeleteMapping("/id/{id}")
+    @DeleteMapping("/{id}")
     public void deleteProductOrder(@PathVariable int id) {
         productOrderService.deleteProductOrder(id);
     }
